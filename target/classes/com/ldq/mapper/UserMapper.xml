@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ldq.mapper.UserMapper">
+    <select id="findByName"  resultType="user">
+        SELECT * FROM user WHERE userName = #{username}
+    </select>
+
+    <select id="findByUserId"  resultType="user">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <update id="updateByUserId">
+        UPDATE user SET
+            `userName` = #{userName},
+            `password` = #{password},
+            `status` = #{status}
+            `identity` = #{identity }
+        WHERE (userId = #{userId})
+    </update>
+
+    <update id="updatePwdByUserId">
+        UPDATE user SET
+            `password` = #{newPwd}
+        WHERE (userId = #{userId})
+    </update>
+
+    <delete id="deleteByUserId">
+        DELETE FROM user WHERE userId = #{userId}
+    </delete>
+
+    <select id="getAllUsers" resultType="user">
+        SELECT * FROM user LIMIT #{rowstart},#{pagesize}
+    </select>
+
+    <select id="getAllUsersNum" resultType="Integer">
+        SELECT count(*) FROM user
+    </select>
+
+    <insert id="addUser" parameterType="com.ldq.domain.User">
+        INSERT INTO user VALUES (#{userId},#{userName},#{password},#{identity},#{status})
+        <selectKey resultType="Long" keyProperty="userId" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+</mapper>

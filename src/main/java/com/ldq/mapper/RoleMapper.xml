@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ldq.mapper.RoleMapper">
+    <select id="getAllRoles"  resultType="role">
+        SELECT * FROM role
+    </select>
+
+    <select id="getRightNameByRoleId" resultType="string">
+        SELECT rightName
+        FROM `role` , role_right , `right`
+        WHERE `role`.roleId = role_right.roleId AND `right`.rightId = role_right.rightId AND `role`.roleId = #{roleId}
+    </select>
+
+    <select id="getRightCodeByRoleId" resultType="string">
+        SELECT rightCode
+        FROM `role` , role_right , `right`
+        WHERE `role`.roleId = role_right.roleId AND `right`.rightId = role_right.rightId AND `role`.roleId = #{roleId}
+    </select>
+
+    <select id="findByRoleId"  resultType="role">
+        SELECT * FROM role WHERE roleId = #{roleId}
+    </select>
+
+    <select id="findByRoleName" resultType="Integer">
+        SELECT roleId FROM role WHERE roleName = #{roleName}
+    </select>
+
+    <update id="updateByRoleId">
+        UPDATE role SET
+            `roleName` = #{roleName},
+            `roleDesc` = #{roleDesc}
+        WHERE (roleId = #{roleId})
+    </update>
+
+    <delete id="deleteAllRights">
+        DELETE FROM role_right WHERE roleId = #{roleId}
+    </delete>
+
+    <insert id="updateRightByRoleId">
+        INSERT INTO role_right (roleId,rightId)
+        VALUES (#{roleId},#{rightId})
+    </insert>
+</mapper>
